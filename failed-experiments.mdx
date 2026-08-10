@@ -1,0 +1,60 @@
+---
+title: "Failed Experiments"
+description: "The hypotheses that didn't hold up — kept on the record, not deleted."
+---
+
+Most of what I test doesn't turn into a full write-up. It's a quick test of an idea, the idea doesn't pan out, and normally that would just get deleted. This page is where those go instead.
+
+The rule is simple: if I formed a hypothesis and ran a real test, the result gets logged here — even when the honest verdict is "not worth it" or "I was wrong."
+
+<Tip>
+Each entry below is a template shape. Duplicate the block, fill it in, and drop it at the top of the list — most recent first.
+</Tip>
+
+---
+
+## [Short description of what I tried]
+
+**Expected:** [what I thought would happen]
+
+**Result:**
+
+| Metric | Change |
+|---|---|
+| [ metric ] | [ +/- value ] |
+| [ metric ] | [ +/- value ] |
+
+**Verdict:** [Not worth it for this use case / Worth revisiting later / Wrong assumption — here's what I'd check instead]
+
+---
+
+### Example entry (for reference)
+
+## Increasing input resolution to improve small-object recall
+
+**Expected:** Higher resolution would meaningfully improve detection of small/distant objects with an acceptable performance cost.
+
+**Result:**
+
+| Metric | Change |
+|---|---|
+| mAP | +0.4% |
+| FPS | −48% |
+| VRAM | +72% |
+
+**Verdict:** Not worth it for this application — the accuracy gain didn't come close to justifying the throughput and memory hit. Would revisit only if the deployment target had significantly more headroom.
+
+---
+
+## INT8 quantization would tank accuracy
+
+**Expected:** Quantizing to INT8 would cause a noticeable drop in mAP, so I planned to avoid it for this model.
+
+**Result:**
+
+| Metric | Change |
+|---|---|
+| mAP | −0.6% |
+| FPS | +140% |
+
+**Verdict:** Wrong assumption — the accuracy hit was much smaller than expected relative to the throughput gain. Worth investigating further as the default for deployment, not just an edge case.

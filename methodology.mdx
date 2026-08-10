@@ -1,0 +1,77 @@
+---
+title: "Methodology"
+description: "The rules every experiment on this site has to follow."
+---
+
+None of this matters if the results aren't trustworthy. Before I write up any experiment, it has to follow these rules — no exceptions, even when a shortcut would've made a nicer chart.
+
+## The rules
+
+<Steps>
+  <Step title="Change one major variable at a time">
+    If I'm comparing model sizes, the dataset, resolution, epochs, and hardware all stay fixed. Change more than one thing and you can't tell what actually caused the result.
+  </Step>
+  <Step title="Keep the test set fixed">
+    Every model or config in a given experiment sees the exact same held-out data, in the same order, at the same split.
+  </Step>
+  <Step title="Report more than accuracy">
+    A model that's 2% more accurate but 3x slower isn't automatically "better." I report accuracy alongside latency, memory, and — where it applies — cost.
+  </Step>
+  <Step title="Record the full environment">
+    Hardware, OS, driver/CUDA version, framework versions, and dataset version all get written down. "It depends on your setup" isn't a footnote, it's the point.
+  </Step>
+  <Step title="Repeat the benchmark">
+    Single-run numbers are noise. Latency and throughput numbers come from repeated runs after a warm-up period — see below.
+  </Step>
+  <Step title="Report failures">
+    If the hypothesis was wrong, that's still a result. The [Failed Experiments](/failed-experiments) log is not an afterthought.
+  </Step>
+  <Step title="Publish raw results where possible">
+    Config files, scripts, and raw output go in the linked repo for each experiment so the numbers can actually be checked.
+  </Step>
+</Steps>
+
+## How I measure latency and throughput
+
+To avoid cold-start effects skewing the numbers, every benchmark follows the same warm-up-then-measure pattern:
+
+| Stage | What happens |
+|---|---|
+| Warm-up | 100 inference passes, discarded |
+| Measurement | 1,000 inference passes, timed |
+| Primary metric | Median latency |
+| Also reported | Mean, P95, P99 latency |
+
+I report median (not mean) as the headline number because a handful of slow outliers can drag the mean around in a way that's misleading. Mean and tail latency (P95/P99) are still reported alongside it — tail latency is often what actually matters for a real-time system.
+
+## Stack this runs on
+
+<Tabs>
+  <Tab title="Experiments">
+    Python, PyTorch, Ultralytics, OpenCV, NumPy, Pandas
+  </Tab>
+  <Tab title="Tracking runs">
+    MLflow or Weights & Biases for experiment tracking and run comparison
+  </Tab>
+  <Tab title="Benchmarking">
+    `time.perf_counter` for wall-clock timing, PyTorch Profiler for op-level breakdowns, Nsight Systems/Compute for GPU-level profiling where it's warranted
+  </Tab>
+  <Tab title="Visualization">
+    Matplotlib for static charts, Plotly for anything interactive
+  </Tab>
+</Tabs>
+
+## Reproducibility block
+
+Every experiment page ends with a block like this, filled in with real values:
+
+```yaml
+repo: github.com/your-username/experiment-repo
+dataset: dataset-name v1.2
+config: configs/exp-cv-001.yaml
+environment: environment.yml
+commit: <full sha>
+hardware: RTX ____, ____ GB VRAM
+```
+
+If someone can't clone the repo and get numbers within a reasonable margin of mine, the write-up isn't finished yet.
