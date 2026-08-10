@@ -1,0 +1,55 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "maple",
+  "name": "AI Project Lab",
+  "description": "Experiments, benchmarks, and case studies from real AI/ML projects.",
+  "colors": {
+    "primary": "#0EA5E9",
+    "light": "#38BDF8",
+    "dark": "#0369A1"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Start Here",
+        "pages": [
+          "index",
+          "methodology"
+        ]
+      },
+      {
+        "group": "Experiments",
+        "pages": [
+          "experiments/overview",
+          "experiments/template",
+          "experiments/exp-cv-001-yolo-model-comparison"
+        ]
+      },
+      {
+        "group": "Lab Notes",
+        "pages": [
+          "failed-experiments"
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Decision Book",
+        "href": "https://dev-mohammad.mintlify.app"
+      }
+    ],
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/your-username"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/your-username",
+      "linkedin": "https://linkedin.com/in/your-username"
+    }
+  }
+}
